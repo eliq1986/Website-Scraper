@@ -15,8 +15,13 @@ const fs = require("fs");
 const request = require("request"),
       cheerio = require("cheerio"),
       mkdir = require("mkdirp"),
-      axios = require("axios");
+      axios = require("axios"),
+      jsonexport = require('jsonexport');
 
+
+
+const fields = ["Title", "Price", "ImageURL", "URL"];
+const opts = {fields};
 
 
 
@@ -47,7 +52,7 @@ axios.get(entryURL).then((response) => {
 
 
 }).then((res)=>{
-  console.log(res);
+
 
    let arrayOfObj = [];
 
@@ -82,10 +87,13 @@ axios.get(entryURL).then((response) => {
 
      })
      setTimeout(()=> {
-        const jsonArrayOfObjects = JSON.stringify(arrayOfObj);
-        console.log(jsonArrayOfObjects);
+        const jsonArrayOfObjects = arrayOfObj;
 
-   }, 1000);
+        jsonexport( jsonArrayOfObjects,function(err, csv){
+            if(err) return console.log(err);
+            console.log(csv);
+        });
+}, 2000);
 
 
 }).catch((err) => {
