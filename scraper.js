@@ -33,72 +33,61 @@ axios.get(entryURL).then((response) => {
      const $ = cheerio.load(response.data);
      const ulList = $("ul.products a");
 
+
+
           ulList.each(function(i,elem)  {
             arrayOfLinks.push(elem.attribs.href);
 
           });
 
+
      const url = response.config.url;
      arrayOfLinks.push(url);
      return arrayOfLinks;
+
+
 }).then((res)=>{
+  console.log(res);
+
    let arrayOfObj = [];
-   let url = res.pop();
+
+   const url = res.pop();
     const newURL = url.slice(0, 23);
      res.forEach(link => {
-        request(`${newURL}${link}`, (error, response, body) => {
-        // console.log(response.statusCode);
-          const $ = cheerio.load(body);
-             //console.log(body);
-             let imageSrc = $(".shirt-picture img").attr("src");
-            console.log(imageSrc);
+        const shirtObj = {};
+      let price, name, title, imageURL, shirtDetails, shirtURL;
+        axios.get(`${newURL}${link}`).then((response) => {
+
+
+
+              const $ = cheerio.load(response.data);
+                shirtURL = response.config.url;
+
+             imageURL = $(".shirt-picture img").attr("src");
+             shirtDetails = $(".shirt-details h1").text();
+
+             [price, ...name] = shirtDetails.split(" ");
+              name = name.join(" ");
+              name = name.split(",");
+              shirtObj.title = name[0];
+              shirtObj.price = price;
+              shirtObj.imageSource = imageURL;
+              shirtObj.url = shirtURL;
+
+              arrayOfObj.push(shirtObj);
+
+
 
        })
+
      })
-   setTimeout(()=> {
-//    console.log(arrayOfObj);
-  }, );
+     setTimeout(()=> {
+        const jsonArrayOfObjects = JSON.stringify(arrayOfObj);
+        console.log(jsonArrayOfObjects);
+
+   }, 1000);
+
+
 }).catch((err) => {
   console.log(err);
 });
-
-
-
-
-//   const arrayOfShirts = [];
-//     arrayOfPricesLinks.forEach(link => {
-//
-//     const shirtObj = {};
-//       axios.get(`http://shirts4mike.com/${link}`)
-//       .then((response) => {
-//           const $ = cheerio.load(response.data);
-//           let price, name;
-//
-//          let imageSrc = $(".shirt-picture img").attr("src");
-//          imageSrc = `http://www.shirts4mike.com/${imageSrc}`
-//           let shirtDetails = $(".shirt-details h1").text();
-//             const url = response.config.url;
-//           [price, ...name] = shirtDetails.split(" ");
-//           name = name.join(" ");
-//           name = name.split(",")
-//           shirtObj.title = name[0];
-//           shirtObj.price = price;
-//           shirtObj.imageSource = imageSrc;
-//           shirtObj.url = url;
-//
-//           arrayOfShirts.push(shirtObj);
-//
-//
-//           return arrayOfShirts;
-//
-//       }).then((array)=> {
-//        console.log(array[array.length - 1])
-//
-//       }).catch((error)=> {
-//           console.log(error)
-//       })
-//
-//
-//     })
-//
-// });
