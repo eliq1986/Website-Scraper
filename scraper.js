@@ -25,6 +25,7 @@ const result  = fs.existsSync(`./data`);
 
 
 //makes request to url
+
 axios.get(entryURL).then((response) => {
      let arrayOfLinks = [];
 
@@ -100,7 +101,7 @@ axios.get(entryURL).then((response) => {
 
         jsonexport( jsonArrayOfObjects,function(err, csv){
             if(err) return console.log(err);
-            console.log(csv);
+            fs.writeFileSync(`./data/${formattedDate}.csv`, csv);
         });
 }, 2000);
 
