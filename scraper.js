@@ -1,14 +1,13 @@
 "use strict";
 
-const command = process.argv[2];
-
 const entryURL = "http://shirts4mike.com/shirts.php";
-
 
 // loads node core modules
 const fs = require("fs");
 
-
+//loads custom modules
+const formatDate = require("./format-date.js");
+const formatTime = require("./format-time.js");
 
 
 //loads npm modules
@@ -17,12 +16,6 @@ const request = require("request"),
       mkdir = require("mkdirp"),
       axios = require("axios"),
       jsonexport = require('jsonexport');
-
-
-
-const fields = ["Title", "Price", "ImageURL", "URL"];
-const opts = {fields};
-
 
 
 // checks if folder exists
@@ -46,8 +39,17 @@ axios.get(entryURL).then((response) => {
           });
 
 
+          const date = response.headers.date;
+
+
+
+          const formattedDate = formatDate.formatDate(date);
+          const formattedTime = formatTime.formatTime(date);
+
+
+
      const url = response.config.url;
-     arrayOfLinks.push(url);
+     arrayOfLinks.push(url, formattedDate, formattedTime);
      return arrayOfLinks;
 
 
@@ -55,9 +57,13 @@ axios.get(entryURL).then((response) => {
 
 
    let arrayOfObj = [];
-
+   const formattedTime = res.pop();
+   const formattedDate = res.pop();
    const url = res.pop();
+
+
     const newURL = url.slice(0, 23);
+
      res.forEach(link => {
         const shirtObj = {};
       let price, name, title, imageURL, shirtDetails, shirtURL;
@@ -74,14 +80,17 @@ axios.get(entryURL).then((response) => {
              [price, ...name] = shirtDetails.split(" ");
               name = name.join(" ");
               name = name.split(",");
-              shirtObj.title = name[0];
-              shirtObj.price = price;
-              shirtObj.imageSource = imageURL;
-              shirtObj.url = shirtURL;
+              shirtObj.Title = name[0];
+              shirtObj.Price = price;
+              shirtObj.ImageURL = imageURL;
+              shirtObj.URL = shirtURL;
+              shirtObj.Time = formattedTime;
+
 
               arrayOfObj.push(shirtObj);
 
 
+        const date = response.headers.date;
 
        })
 
