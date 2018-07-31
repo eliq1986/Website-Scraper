@@ -25,6 +25,9 @@ const result  = fs.existsSync(`./data`);
 
 
 //makes request to url
+ request("http://shirts4mike.com", (error, response, body)=> {
+     if (!error) {
+
 
 axios.get(entryURL).then((response) => {
      let arrayOfLinks = [];
@@ -109,3 +112,8 @@ axios.get(entryURL).then((response) => {
 }).catch((err) => {
   console.log(err);
 });
+  } else {
+     console.log(`Theres been a 404 error`, error);
+}
+
+})
