@@ -28,7 +28,6 @@ const result  = fs.existsSync(`./data`);
  request("http://shirts4mike.com", (error, response, body)=> {
      if (!error) {
 
-
 axios.get(entryURL).then((response) => {
      let arrayOfLinks = [];
 
@@ -113,7 +112,16 @@ axios.get(entryURL).then((response) => {
   console.log(err);
 });
   } else {
-     console.log(`Theres been a 404 error`, error);
+    const date = new Date;
+    const formatErrorDate = (date) => {
+
+    const yearMonthDay = date.toString();
+     const message = `[${yearMonthDay}] There's been a 404 error <br />`;
+    fs.writeFileSync("./scraper-error.log", message);
+    }
+    formatErrorDate(date);
+
+
 }
 
 })

@@ -7,6 +7,7 @@ const formatDate = (date) => {
      day = dateArr.shift();
      year = dateArr.pop();
      formatDate = `${year}-${dateArr[0]}-${day}`;
+     
      return formatDate;
 }
 
