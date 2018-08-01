@@ -1,5 +1,5 @@
 "use strict";
-
+// static url
 const webSiteURL = "http://shirts4mike.com";
 const entryURL = "http://shirts4mike.com/shirts.php";
 
@@ -8,19 +8,18 @@ const fs = require("fs");
 
 //loads npm modules
 const request = require("request"),
-  cheerio = require("cheerio"),
-  mkdir = require("mkdirp"),
-  rp = require("request-promise"),
-  jsonexport = require('jsonexport');
+      cheerio = require("cheerio"),
+      mkdir = require("mkdirp"),
+      rp = require("request-promise"),
+      jsonexport = require('jsonexport');
 
 // checks if folder exists
   const result = fs.existsSync(`./data`);
-  result ? null: mkdir(`./data`);
+        result ? null: mkdir(`./data`);
 
 // loads custom modules
-  const date = require("./format-date.js");
-  const time = require("./format-time.js");
-  const entry = require("./entry.js");
+  const entry = require("./entry");
+  const scrape = require("./scrape")
 
 
 
@@ -38,47 +37,7 @@ request(`${webSiteURL}`, (error, response, body) => {
 
     }).then((arr)=> {
 
-      let arrayOfObj = [];
-  const url = arr.pop();
-  const formattedDate = arr.pop();
-  const formattedTime = arr.pop();
-
-  arr.forEach((link) => {
-      const shirtObj = {};
-      let price, name, title, imageURL, shirtDetails, shirtURL;
-      request(`${url}${link}`, (error, response, body) => {
-
-     const $ = cheerio.load(body);
-       shirtURL = response.request.uri.href;
-
-    imageURL = $(".shirt-picture img").attr("src");
-    shirtDetails = $(".shirt-details h1").text();
-
-    [price, ...name] = shirtDetails.split(" ");
-     name = name.join(" ");
-     name = name.split(",");
-     shirtObj.Title = name[0];
-     shirtObj.Price = price;
-     shirtObj.ImageURL = `${url}${imageURL}`;
-     shirtObj.URL = shirtURL;
-     shirtObj.Time = formattedTime;
-
-
-     arrayOfObj.push(shirtObj)
-
-      })
-
-
-
-  })
-  setTimeout(()=> {
-
-             jsonexport(arrayOfObj, (error, csv) => {
-            if (error)
-              return console.log(error);
-              fs.writeFileSync(`./data/${formattedDate}.csv`, csv);
-            });
-  },1000);
+     scrape.scrape(arr);
 });
 }
 });
