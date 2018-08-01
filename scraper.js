@@ -20,40 +20,28 @@ const request = require("request"),
 // loads custom modules
   const date = require("./format-date.js");
   const time = require("./format-time.js");
+  const entry = require("./entry.js");
 
 
 
 // makes request to url
+try {
 request(`${webSiteURL}`, (error, response, body) => {
   if (!error && response.statusCode === 200) {
      const url = response.request.uri.href;
+ //request-promise
     rp(`${entryURL}`).then((body) => {
-      let arr = [];
-      const dateResponse = response.headers.date;
-      const $ = cheerio.load(body);
-      const ulList = $("ul.products a");
 
-      ulList.each(function(i, elem) {
-        arr.push(elem.attribs.href);
-      });
-      const formattedDate = date.formatDate(dateResponse);
-      const formattedTime = time.formatTime(dateResponse);
-      arr.push(formattedTime)
-      arr.push(formattedDate);
-      arr.push(url);
-      return arr;
+ // entry call
+      const arrayOfItems = entry.entry(body, response);
+      return arrayOfItems;
 
     }).then((arr)=> {
-   //console.log(arr);
+
       let arrayOfObj = [];
   const url = arr.pop();
   const formattedDate = arr.pop();
   const formattedTime = arr.pop();
-
-
-
-//  const newURL = url.slice(0, 23);
-
 
   arr.forEach((link) => {
       const shirtObj = {};
@@ -71,7 +59,7 @@ request(`${webSiteURL}`, (error, response, body) => {
      name = name.split(",");
      shirtObj.Title = name[0];
      shirtObj.Price = price;
-     shirtObj.ImageURL = imageURL;
+     shirtObj.ImageURL = `${url}${imageURL}`;
      shirtObj.URL = shirtURL;
      shirtObj.Time = formattedTime;
 
@@ -85,14 +73,15 @@ request(`${webSiteURL}`, (error, response, body) => {
   })
   setTimeout(()=> {
 
-             jsonexport(arrayOfObj, function(err, csv) {
-            if (err)
-              return console.log(err);
+             jsonexport(arrayOfObj, (error, csv) => {
+            if (error)
+              return console.log(error);
               fs.writeFileSync(`./data/${formattedDate}.csv`, csv);
             });
   },1000);
 });
 }
 });
-
-/
+} catch(error) {
+  console.log(`There was an issue with the URL entered; ${error.message}`);
+}
