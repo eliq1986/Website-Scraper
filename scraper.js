@@ -8,39 +8,55 @@ const fs = require("fs");
 
 //loads npm modules
 const request = require("request"),
-      cheerio = require("cheerio"),
-      mkdir = require("mkdirp"),
-      rp = require("request-promise"),
-      jsonexport = require('jsonexport');
+  cheerio = require("cheerio"),
+  mkdir = require("mkdirp"),
+  rp = require("request-promise"),
+  jsonexport = require('jsonexport');
 
 // checks if folder exists
-  const result = fs.existsSync(`./data`);
-        result ? null: mkdir(`./data`);
+const result = fs.existsSync(`./data`);
+result ? null : mkdir(`./data`);
 
 // loads custom modules
-  const entry = require("./entry");
-  const scrape = require("./scrape")
-
-
+const entry = require("./entry");
+const scrape = require("./scrape");
+const errorMod = require("./err");
 
 // makes request to url
 try {
-request(`${webSiteURL}`, (error, response, body) => {
-  if (!error && response.statusCode === 200) {
-     const url = response.request.uri.href;
- //request-promise
-    rp(`${entryURL}`).then((body) => {
+  request(`${webSiteURL}`, (error, response, body) => {
+    if (error) {
+      errorMod.error(error);
+    } else {
 
- // entry call
-      const arrayOfItems = entry.entry(body, response);
-      return arrayOfItems;
+      const url = response.request.uri.href;
+      //http://shirts4mike.com/
 
-    }).then((arr)=> {
+      //request-promise
+      rp(`${entryURL}`).then((body) => {
 
-     scrape.scrape(arr);
-});
-}
-});
-} catch(error) {
-  console.log(`There was an issue with the URL entered; ${error.message}`);
+        const arrayOfItems = entry.entry(body, response);
+        /*  [ 'shirt.php?id=101',
+          'shirt.php?id=102',
+          'shirt.php?id=103',
+          'shirt.php?id=104',
+          'shirt.php?id=105',
+          'shirt.php?id=106',
+          'shirt.php?id=107',
+          'shirt.php?id=108',
+          '16:05:03 GMT',
+          '2018-08-02',
+          'http://shirts4mike.com/' ]
+         */
+        return arrayOfItems;
+
+      }).then((arr) => {
+        scrape.scrape(arr);
+      }).catch(function(error) {
+        errorMod.error(error);
+      });
+    }
+  });
+} catch (error) {
+  errorMod.error(error);
 }

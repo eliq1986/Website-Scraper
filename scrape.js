@@ -9,25 +9,36 @@ const fs = require("fs");
 
 const scrape = (arr) => {
 
-  let arrayOfObj = [];
+let arrayOfObj = [];
 const url = arr.pop();
+// url => http://shirts4mike.com/
 const formattedDate = arr.pop();
+// formattedDate => 2018-08-02
 const formattedTime = arr.pop();
+// formattedTime => 16:35:46 GMT
+
+
 
 arr.forEach((link) => {
   const shirtObj = {};
-  let price, name, title, imageURL, shirtDetails, shirtURL;
+  let price, name,imageURL, shirtDetails, shirtURL;
   request(`${url}${link}`, (error, response, body) => {
 
  const $ = cheerio.load(body);
    shirtURL = response.request.uri.href;
+   // shirtURL => each shirt url
 
 imageURL = $(".shirt-picture img").attr("src");
+// shirtURL => each shirt image source
 shirtDetails = $(".shirt-details h1").text();
-
+ // shirtDetails => i.e. $18 Logo Shirt, Red
 [price, ...name] = shirtDetails.split(" ");
+// price => i.e. $20
+// ...name => i.e. [ 'Mike', 'the', 'Frog', 'Shirt,', 'Black' ]
  name = name.join(" ");
+ // name => Mike the Frog Shirt, Blue
  name = name.split(",");
+ // name => [ 'Mike the Frog Shirt', ' Blue' ]
  shirtObj.Title = name[0];
  shirtObj.Price = price;
  shirtObj.ImageURL = `${url}${imageURL}`;
