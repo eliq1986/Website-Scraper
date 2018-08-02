@@ -15,7 +15,7 @@ const request = require("request"),
 
 // checks if folder exists
 const result = fs.existsSync(`./data`);
-result ? null : mkdir(`./data`);
+resul ? null : mkdir(`./data`);
 
 // loads custom modules
 const entry = require("./entry");
