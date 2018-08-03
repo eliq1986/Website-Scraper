@@ -4,6 +4,15 @@
    Node.js command line application that goes to an ecommerce site to get the latest prices and save them to a spreadsheet (CSV format).
 </p>
 
+## Skills Learned
+1. NodeJS
+2. Promises
+3. NPM
+4. Modules
+5. HTTP Request
+
+### Reviewers Comments
+ <p>Your code is very clean, particularly due to your use of custom modules. Congrats on implementing those successfully and keep aiming for that 'exceeds expectation' grade!</p>
 ```
 To run: 
 1. npm install
