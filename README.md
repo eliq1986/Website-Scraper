@@ -5,11 +5,11 @@
 </p>
 
 ## Skills Learned
-1. NodeJS
-2. Promises
-3. NPM
-4. Modules
-5. HTTP Request
+- NodeJS
+- Promises
+- NPM
+- Modules
+- HTTP Request
 
 ### Reviewers Comments
  <p>Your code is very clean, particularly due to your use of custom modules. Congrats on implementing those successfully and keep aiming for that 'exceeds expectation' grade!</p>
