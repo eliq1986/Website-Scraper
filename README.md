@@ -10,6 +10,7 @@
 - NPM
 - Modules
 - HTTP Request
+- Asyn programming
 
 ### Reviewers Comments
  <p>Your code is very clean, particularly due to your use of custom modules. Congrats on implementing those successfully and keep aiming for that 'exceeds expectation' grade!</p>
