@@ -30,24 +30,9 @@ try {
     } else {
 
       const url = response.request.uri.href;
-      //http://shirts4mike.com/
-
-      //request-promise
       rp(`${entryURL}`).then((body) => {
 
         const arrayOfItems = entry.entry(body, response);
-        /*  [ 'shirt.php?id=101',
-          'shirt.php?id=102',
-          'shirt.php?id=103',
-          'shirt.php?id=104',
-          'shirt.php?id=105',
-          'shirt.php?id=106',
-          'shirt.php?id=107',
-          'shirt.php?id=108',
-          '16:05:03 GMT',
-          '2018-08-02',
-          'http://shirts4mike.com/' ]
-         */
         return arrayOfItems;
 
       }).then((arr) => {

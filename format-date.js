@@ -1,12 +1,12 @@
 "use strict";
 
 // formats date
-const formatDate = (date) => {
-  let day, year, formatDate, dateArr;
+const formatDate = date => {
+  let day, year, formatDate, dayMonthYearArr;
 
    date = date.slice(5, 16);
    //  Thu, 02 Aug 2018 16:22:20 GMT => 02 Aug 2018
-   dateArr = date.split(" ");
+   dayMonthYearArr = date.split(" ");
    // 02 Aug 2018 => ["02", "Aug, "2018"]
    day = dateArr.shift();
    // day => 02
@@ -27,7 +27,7 @@ const formatDate = (date) => {
     "Oct",
     "Nov",
     "Dec"
-  ].indexOf(dateArr[0]) + 1;
+  ].indexOf(dayMonthYearArr[0] + 1);
 
 
   if (monthNumber < 10) {
@@ -38,4 +38,4 @@ const formatDate = (date) => {
 
 }
 
-module.exports.formatDate = formatDate;
+module.exports = formatDate;
