@@ -9,7 +9,7 @@ const cheerio = require("cheerio");
 const entry = (body, response) => {
   // web entry url => http://shirts4mike.com/
   const url = response.request.uri.href;
-  let arr = [];
+  const arr = [];
 
   const dateResponse = response.headers.date;
   const $ = cheerio.load(body);
@@ -28,18 +28,7 @@ const entry = (body, response) => {
   arr.push(formattedTime)
   arr.push(formattedDate);
   arr.push(url);
-/*  [ 'shirt.php?id=101',
-  'shirt.php?id=102',
-  'shirt.php?id=103',
-  'shirt.php?id=104',
-  'shirt.php?id=105',
-  'shirt.php?id=106',
-  'shirt.php?id=107',
-  'shirt.php?id=108',
-  '16:05:03 GMT',
-  '2018-08-02',
-  'http://shirts4mike.com/' ]
- */
+
   return arr;
 
 
