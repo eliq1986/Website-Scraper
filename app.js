@@ -10,7 +10,7 @@ const fs = require("fs");
 const request = require("request"),
   cheerio = require("cheerio"),
   mkdir = require("mkdirp"),
-  rp = require("request-promise"),
+  requestPromise = require("request-promise"),
   jsonexport = require('jsonexport');
 
 // checks if folder exists
@@ -20,28 +20,28 @@ result ? null : mkdir(`./data`);
 // loads custom modules
 const entry = require("./entry");
 const scrape = require("./scrape");
-const errorMod = require("./err");
+const awwAnError = require("./err");
 
 // makes request to url
 try {
   request(`${webSiteURL}`, (error, response, body) => {
     if (error) {
-      errorMod.error(error);
+      awwAnError(error);
     } else {
 
       const url = response.request.uri.href;
-      rp(`${entryURL}`).then((body) => {
+      requestPromise(`${entryURL}`).then((body) => {
 
-        const arrayOfItems = entry.entry(body, response);
+        const arrayOfItems = entry(body, response);
         return arrayOfItems;
 
       }).then((arr) => {
-        scrape.scrape(arr);
+        scrape(arr);
       }).catch(function(error) {
-        errorMod.error(error);
+        awwAnError(error);
       });
     }
   });
 } catch (error) {
-  errorMod.error(error);
+  awwAnError(error);
 }

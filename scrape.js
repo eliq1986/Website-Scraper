@@ -1,9 +1,11 @@
-const date = require("./format-date.js");
-const time = require("./format-time.js");
+const date = require("./utils/formatDate");
+const time = require("./utils/format-time.js");
+
 const cheerio = require("cheerio");
 const request = require("request");
 const jsonexport = require("jsonexport");
 const fs = require("fs");
+const chalk = require("chalk");
 
 const scrape = (arr) => {
 
@@ -32,9 +34,7 @@ const scrape = (arr) => {
       // shirtURL => each shirt image source
       shirtDetails = $(".shirt-details h1").text();
       // shirtDetails => i.e. $18 Logo Shirt, Red
-      [
-        price, ...name
-      ] = shirtDetails.split(" ");
+      [ price, ...name] = shirtDetails.split(" ");
       // price => i.e. $20
       // ...name => i.e. [ 'Mike', 'the', 'Frog', 'Shirt,', 'Black' ]
       name = name.join(" ");
@@ -56,12 +56,14 @@ const scrape = (arr) => {
   setTimeout(() => {
 
     jsonexport(arrayOfObj, (error, csv) => {
-      if (error)
-        return console.log(error);
+      if (error) {
+        return console.log(chalk.red(error));
+      }
+       console.log(chalk.inverse.green("Scrape successful"))
       fs.writeFileSync(`./data/${formattedDate}.csv`, csv);
     });
   }, 1000);
 
 }
 
-module.exports.scrape = scrape;
+module.exports = scrape;

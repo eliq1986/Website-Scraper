@@ -5,12 +5,13 @@
   "main": "scraper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node scraper.js"
+    "start": "node app.js"
   },
   "author": "Elijah Quesada",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
     "jsonexport": "^2.2.1",
     "mkdirp": "^0.5.1",

@@ -8,9 +8,9 @@ const formatDate = date => {
    //  Thu, 02 Aug 2018 16:22:20 GMT => 02 Aug 2018
    dayMonthYearArr = date.split(" ");
    // 02 Aug 2018 => ["02", "Aug, "2018"]
-   day = dateArr.shift();
+   day = dayMonthYearArr.shift();
    // day => 02
-   year = dateArr.pop();
+   year = dayMonthYearArr.pop();
    // year => 2018
 
 
@@ -27,7 +27,7 @@ const formatDate = date => {
     "Oct",
     "Nov",
     "Dec"
-  ].indexOf(dayMonthYearArr[0] + 1);
+  ].indexOf(dayMonthYearArr[0]) + 1;
 
 
   if (monthNumber < 10) {

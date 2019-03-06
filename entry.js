@@ -1,7 +1,6 @@
-"use strict";
 // custom modules
-const date = require("./format-date.js");
-const time = require("./format-time.js");
+const formatDate = require("./utils/formatDate");
+const time = require("./utils/format-time.js");
 
 //npm modules
 const cheerio = require("cheerio");
@@ -15,11 +14,11 @@ const entry = (body, response) => {
   const $ = cheerio.load(body);
   const ulList = $("ul.products a");
 
-  ulList.each(function(i, elem) {
+  ulList.each((i, elem) => {
     arr.push(elem.attribs.href);
   });
 
-  const formattedDate = date.formatDate(dateResponse);
+  const formattedDate = formatDate(dateResponse);
   // Thu, 02 Aug 2018 16:03:43 GMT =>  2018-08-02
 
   const formattedTime = time.formatTime(dateResponse);
@@ -35,4 +34,4 @@ const entry = (body, response) => {
 }
 
 
-module.exports.entry = entry;
+module.exports = entry;

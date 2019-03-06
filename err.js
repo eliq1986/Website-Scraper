@@ -17,4 +17,4 @@ const awwAnError = (error) => {
 
 };
 
-module.exports.error = awwAnError;
+module.exports = awwAnError;

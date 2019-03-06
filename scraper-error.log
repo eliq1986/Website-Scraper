@@ -1,0 +1,7 @@
+[Wed Mar 06 2019 14:00:05 GMT-0800 (Pacific Standard Time)] There's been an error: TypeError: date.formatDate is not a function 
+[Wed Mar 06 2019 14:03:05 GMT-0800 (Pacific Standard Time)] There's been an error: ReferenceError: dateArr is not defined 
+[Wed Mar 06 2019 14:31:31 GMT-0800 (Pacific Standard Time)] There's been an error: TypeError: Cannot read property 'href' of undefined 
+[Wed Mar 06 2019 14:32:42 GMT-0800 (Pacific Standard Time)] There's been an error: TypeError: Cannot read property 'href' of undefined 
+[Wed Mar 06 2019 15:03:10 GMT-0800 (Pacific Standard Time)] There's been an error: TypeError: scrape.scrape is not a function 
+[Wed Mar 06 2019 15:08:22 GMT-0800 (Pacific Standard Time)] There's been an error: TypeError: scrape.a is not a function 
+[Wed Mar 06 2019 15:26:15 GMT-0800 (Pacific Standard Time)] There's been an error: TypeError: entry.entry is not a function 
